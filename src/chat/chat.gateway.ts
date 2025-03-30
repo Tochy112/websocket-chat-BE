@@ -64,8 +64,8 @@ export class ChatGateway {
     // Optional: Validate user is part of the chat
     const chatRoom = await this.chatRepository
       .createQueryBuilder('chat')
-      .innerJoin('chat.members', 'member')
-      .innerJoin('member.user', 'user')
+      .leftJoinAndSelect('chat.members', 'member')
+      .leftJoinAndSelect('member.user', 'user')
       .where('chat.id = :chatId', { chatId: data.chatId })
       .andWhere('user.id = :userId', { userId: data.userId })
       .getOne();
